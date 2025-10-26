@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+from datetime import datetime
 from app.database.database import Base
 
 
@@ -17,4 +18,4 @@ class Task(Base):
     author = Column(ForeignKey('users.id'))
     text = Column(String(250))
     done = Column(Boolean)
-    created_at = Column()
+    created_at = Column(DateTime, default=datetime.utcnow)
