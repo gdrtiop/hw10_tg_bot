@@ -1,8 +1,14 @@
-import math
+import math, os
+import aiohttp
+from dotenv import load_dotenv
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 ONE_PAGE_ACTIVE = 5
 ONE_PAGE_PASSIVE = 10
+
+load_dotenv()
+
+YANDEX_MAPS_API_KEY = os.getenv("YANDEX_MAPS_API_KEY")
 
 
 def page_task_active_generator(data, page):
@@ -12,7 +18,7 @@ def page_task_active_generator(data, page):
 
     ans = 'Твои задачи:\n'
     keyboard_list = []
-    for num, task in enumerate(now_data, start=strt+1):
+    for num, task in enumerate(now_data, start=strt + 1):
         ans = ans + f'{num}. {task.text}\n'
 
         keyboard_list.append([
@@ -71,3 +77,18 @@ def page_task_all_generator(data, page):
     keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard_list)
 
     return ans, keyboard
+
+
+async def get_coord(address: str):
+    url = f"https://geocode-maps.yandex.ru/1.x/?apikey={YANDEX_MAPS_API_KEY}&geocode={address}&format=json"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            if resp.status != 200:
+                return None
+            data = await resp.json()
+            try:
+                pos = data["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]["pos"]
+                lon, lat = map(float, pos.split())
+                return lat, lon
+            except:
+                return None

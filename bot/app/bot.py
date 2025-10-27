@@ -8,6 +8,7 @@ from aiogram.enums import ParseMode
 from app.middlewares.base_db_middleware import DbSessionMiddleware
 from app.handlers.main_handlers import router as main_handlers_router
 from app.handlers.taskmanage_handlers import router as taskmanage_handlers_router
+from app.handlers.weather_heandlers import router as weather_heandlers_router
 
 load_dotenv()
 
@@ -16,6 +17,7 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 dp.include_router(main_handlers_router)
 dp.include_router(taskmanage_handlers_router)
+dp.include_router(weather_heandlers_router)
 
 dp.message.middleware(DbSessionMiddleware())
 dp.callback_query.middleware(DbSessionMiddleware())

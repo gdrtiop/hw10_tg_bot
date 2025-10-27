@@ -25,7 +25,8 @@ async def start(message: types.Message, session: AsyncSession):
 
 @router.message(Command("help"))
 async def start(message: types.Message):
-    await message.answer("Я много чего умею.", reply_markup=await get_main_kb())
+    await message.answer("Благодаря мне ты можешь управлять своими задачами, отслеживать пагоду, получать информацию "
+                         "о файле и получать курс валют.", reply_markup=await get_main_kb())
 
 
 @router.callback_query(F.data == "menu")
