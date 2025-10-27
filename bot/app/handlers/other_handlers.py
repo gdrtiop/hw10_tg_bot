@@ -11,7 +11,7 @@ from app.statesclasses.statesclasses import NewFile, CurrRate
 
 load_dotenv()
 
-EXCAHNGE_API_KEY = os.getenv('EXCAHNGE_API_KEY')
+EXCHANGE_API_KEY = os.getenv('EXCHANGE_API_KEY')
 
 router = Router()
 
@@ -68,13 +68,14 @@ async def get_rates(message: Message, state: FSMContext):
     try:
         base, symb = message.text.strip().split(maxsplit=1)
         base = base.upper()
-        symb = symb.replace(" ", "").upper()
+        symb = [s.strip().upper() for s in symb.split(",")]
     except ValueError:
         await message.answer("Неверный Формат. Пример: USD EUR,RUB")
         return
 
     async with aiohttp.ClientSession() as session:
-        async with session.get(f"https://v6.exchangerate-api.com/v6/{EXCAHNGE_API_KEY}/latest/{base}") as resp:
+        async with session.get(f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/latest/{base}") as resp:
+            'https://v6.exchangerate-api.com/v6/624889ea8e3b1f61ff815aff/latest/USD'
             if resp.status != 200:
                 return None
             data = await resp.json()
