@@ -83,17 +83,13 @@ async def get_rates(message: Message, state: FSMContext):
 
             rates = data.get("conversion_rates", {})
             filtered_rates = {sym: rates[sym] for sym in symb if sym in rates}
-            return filtered_rates
 
-
-    if "rates" not in data:
-        await message.answer("Не удалось получить данные.")
+    if not filtered_rates:
+        await message.answer("Не удалось получить курсы валют.")
         return
 
-    rates = data["rates"]
-    answer = [f"Базовая валюта: {base}"]
-    for sym, val in rates.items():
-        answer.append(f"{sym}: {val:.4f}")
+    reply = f"Курсы валют по отношению к {base}:\n"
+    for sym, rate in filtered_rates.items():
+        reply += f"{sym}: {rate}\n"
 
-    await message.answer("\n".join(answer), reply_markup=await get_main_kb())
-    await state.clear()
+    await message.answer(reply)
