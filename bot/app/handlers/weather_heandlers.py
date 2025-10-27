@@ -72,7 +72,7 @@ async def send_weather(message, lat, lon):
 
             now = data["weather"][0]["description"].capitalize()
             temp = data["main"]["temp"]
-            feel = data["main"]["feel_like"]
+            feel = data["main"]["feels_like"]
             loc = data["name"]
 
             await message.answer(f"Погода в {loc}:\nТемпература: {temp}°C\nОщущается как: {feel}°C\nСейчас: {now}",

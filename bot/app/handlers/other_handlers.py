@@ -4,9 +4,14 @@ import hashlib
 from aiogram import F, Router
 from aiogram.types import CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
+from dotenv import load_dotenv
 
 from app.keyboards.keyboards import get_main_kb
 from app.statesclasses.statesclasses import NewFile, CurrRate
+
+load_dotenv()
+
+EXCAHNGE_API_KEY = os.getenv('EXCAHNGE_API_KEY')
 
 router = Router()
 
@@ -70,7 +75,8 @@ async def get_rates(message: Message, state: FSMContext):
 
     async with aiohttp.ClientSession() as session:
         async with session.get(
-                f"https://api.exchangerate.host/latest?base={base}&symb={symb}"
+                f"https://api.exchangeratesapi.io/latest?access_key={EXCAHNGE_API_KEY}&base={base}&symbols={symb}"
+"
         ) as resp:
             data = await resp.json()
 
