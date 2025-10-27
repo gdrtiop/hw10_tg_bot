@@ -6,4 +6,8 @@ COPY . /bot/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "-m", "app.bot"]
+CMD ["bash", "-c", "\
+    alembic revision --autogenerate -m 'init tables' && \
+    alembic upgrade head && \
+    python -m app.bot \
+"]

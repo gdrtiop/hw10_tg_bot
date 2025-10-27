@@ -1,0 +1,10 @@
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+
+async def get_main_kb():
+    keyboard = [
+        [InlineKeyboardButton(text="Создать задачу", callback_data="add_task")],
+        [InlineKeyboardButton(text="Показать активные задачи", callback_data="active_tasks")],
+        [InlineKeyboardButton(text="Показать все задачи", callback_data="all_tasks")],
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
