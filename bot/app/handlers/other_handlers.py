@@ -46,7 +46,7 @@ async def handle_file(message: Message, state: FSMContext):
     file_size = len(content)
     sha256 = hashlib.sha256(content).hexdigest()
 
-    await message.answer(f">Имя файла:{file_name}\n, Размер:{file_size:,} байт\n, SHA-256:{sha256}",
+    await message.answer(f">Имя файла:{file_name}\nРазмер:{file_size:} байт\n, SHA-256:{sha256}",
                          reply_markup=await get_main_kb())
 
     await state.clear()
@@ -74,11 +74,17 @@ async def get_rates(message: Message, state: FSMContext):
         return
 
     async with aiohttp.ClientSession() as session:
-        async with session.get(
-                f"https://api.exchangeratesapi.io/latest?access_key={EXCAHNGE_API_KEY}&base={base}&symbols={symb}"
-"
-        ) as resp:
+        async with session.get(f"https://v6.exchangerate-api.com/v6/{EXCAHNGE_API_KEY}/latest/{base}") as resp:
+            if resp.status != 200:
+                return None
             data = await resp.json()
+            if data.get("result") != "success":
+                return None
+
+            rates = data.get("conversion_rates", {})
+            filtered_rates = {sym: rates[sym] for sym in symb if sym in rates}
+            return filtered_rates
+
 
     if "rates" not in data:
         await message.answer("Не удалось получить данные.")
