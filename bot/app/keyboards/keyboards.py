@@ -7,5 +7,7 @@ async def get_main_kb():
         [InlineKeyboardButton(text="Показать активные задачи", callback_data="active_tasks")],
         [InlineKeyboardButton(text="Показать все задачи", callback_data="all_tasks")],
         [InlineKeyboardButton(text="Получить погоду", callback_data="get_weather")],
+        [InlineKeyboardButton(text="Получить инфу о файле", callback_data="upload_file")],
+        [InlineKeyboardButton(text="Получить курсы валют", callback_data="get_rates")],
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
