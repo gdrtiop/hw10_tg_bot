@@ -46,7 +46,7 @@ async def handle_file(message: Message, state: FSMContext):
     file_size = len(content)
     sha256 = hashlib.sha256(content).hexdigest()
 
-    await message.answer(f">Имя файла:{file_name}\nРазмер:{file_size:} байт\n, SHA-256:{sha256}",
+    await message.answer(f">Имя файла:{file_name}\nРазмер:{file_size:} байт\nSHA-256:{sha256}",
                          reply_markup=await get_main_kb())
 
     await state.clear()
@@ -94,3 +94,4 @@ async def get_rates(message: Message, state: FSMContext):
         reply += f"{sym}: {rate}\n"
 
     await message.answer(reply)
+    await state.clear()

@@ -20,6 +20,7 @@ router = Router()
 
 @router.callback_query(F.data == "get_weather")
 async def get_weather(callback: CallbackQuery, state: FSMContext, session: AsyncSession):
+    await callback.answer()
     res = await session.execute(select(User).where(User.tg_id == callback.from_user.id))
     user = res.scalar_one_or_none()
 
@@ -77,3 +78,20 @@ async def send_weather(message, lat, lon):
 
             await message.answer(f"Погода в {loc}:\nТемпература: {temp}°C\nОщущается как: {feel}°C\nСейчас: {now}",
                                  reply_markup=await get_main_kb())
+
+
+@router.callback_query(F.data == "change_location")
+async def get_weather(callback: CallbackQuery, state: FSMContext, session: AsyncSession):
+    await callback.answer()
+    res = await session.execute(select(User).where(User.tg_id == callback.from_user.id))
+    user = res.scalar_one_or_none()
+
+    if not user:
+        await callback.message.answer(
+            "Не могу найти тебя в базе данных(\nНажми /start, чтобы это исправить."
+        )
+        await callback.answer()
+        return
+
+    await callback.message.answer("Введи адрес:")
+    await state.set_state(WeatherLoc.location)

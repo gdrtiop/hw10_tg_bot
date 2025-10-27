@@ -1,0 +1,25 @@
+services:
+  postgres-db:
+    image: postgres:latest
+    container_name: data_base_hw10
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "6000:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  tg_bot:
+    container_name: tg_bot_hw10
+    build:
+      context: ./bot
+    volumes:
+      - ./.env:/bot/.env
+    depends_on:
+      postgres-db:
+        condition: service_healthy

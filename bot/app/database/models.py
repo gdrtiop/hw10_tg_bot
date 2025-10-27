@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, Float
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, Float, BigInteger
 from datetime import datetime
 from app.database.database import Base
 
@@ -7,7 +7,7 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    tg_id = Column(Integer, unique=True, index=True)
+    tg_id = Column(BigInteger, unique=True, index=True)
     lat = Column(Float)
     lon = Column(Float)
 
