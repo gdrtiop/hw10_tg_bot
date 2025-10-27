@@ -6,7 +6,7 @@
 
 - Ключ для API Яндекс.Карт можно получить [здесь](https://developer.tech.yandex.ru).  
 - Ключ для API OpenWeather можно получить [здесь](https://openweathermap.org/).  
-> Важно: OpenWeather работает только через VPN.  
+> Важно: регистрация OpenWeather работает только через VPN.  
 - Ключ для API курсов валют можно получить на [exchangerate-api.com](https://www.exchangerate-api.com/).  
 
 **Важно при повторном запуске:**  
