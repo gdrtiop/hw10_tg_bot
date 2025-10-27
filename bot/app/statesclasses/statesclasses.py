@@ -10,7 +10,7 @@ class WeatherLoc(StatesGroup):
 
 
 class NewFile(StatesGroup):
-    File = State()
+    file = State()
 
 
 class CurrRate(StatesGroup):
